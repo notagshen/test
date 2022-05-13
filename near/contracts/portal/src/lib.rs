@@ -240,9 +240,11 @@ fn vaa_asset_meta(storage: &mut TokenBridge, vaa: state::ParsedVAA) {
         decimals: decimals,
     };
 
-    let token = new_ftcontract(env::current_account_id(), ft, data.to_vec(), vaa.sequence);
+    let mut token = new_ftcontract(env::current_account_id(), ft, data.to_vec(), vaa.sequence);
 
     storage.tokens.insert(&tkey, &token);
+
+    token.storage_deposit(None, None);
 }
 
 fn vaa_transfer_with_payload(storage: &mut TokenBridge, vaa: state::ParsedVAA) {
